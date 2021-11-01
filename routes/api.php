@@ -20,3 +20,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post("order/store", [Order::class, 'store']);
+Route::get("order", [Order::class, 'index']);
+Route::get("order/{id}", [Order::class, 'show']);

@@ -14,7 +14,10 @@ class Order extends Controller
      */
     public function index()
     {
-        //
+        $orders = DB::table("orders")
+            ->get("*")
+            ->toArray();
+        return response()->json($orders);
     }
 
     /**
@@ -58,7 +61,21 @@ class Order extends Controller
      */
     public function show($id)
     {
-        //
+        $order = DB::table("orders")
+            ->where("id", "=", $id)
+            ->limit(1)
+            ->get("*")
+            ->toArray();
+        $payment_logs = DB::table("payment_logs")
+            ->where("order_id", "=", $id)
+            ->orderByDesc("id")
+            ->get("*")
+            ->toArray();
+
+        return response()->json([
+            "order" => $order[0],
+            "payment_logs" => $payment_logs
+        ]);
     }
 
     /**
